@@ -1,11 +1,20 @@
 const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
+require("dotenv").config();
+
+const db = require("./db");
+const models = require("./models");
 
 // Run the server on a port specified in our .env file or port 4000
 const port = process.env.PORT || 4000;
 
-//fake data
+// DB Host
+const DB_HOST = process.env.DB_HOST;
 
+// the connection
+db.connect(DB_HOST);
+
+//fake data
 let notes = [
   { id: "1", content: "This is a note", author: "Adam Scott" },
   { id: "2", content: "This is another note", author: "Harlow Everly" },
@@ -34,21 +43,20 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     hello: () => "Hello world!",
-    notes: () => notes,
-    note: (parent, args, context, info) => {
-      return notes.find((note) => note.id == args.id);
+    notes: async () => {
+      return await models.Note.find();
+    },
+    note: async (parent, args, context, info) => {
+      return await models.Note.findById(args.id);
     },
   },
 
   Mutation: {
-    newNote: (parent, args, context, info) => {
-      let noteValue = {
-        id: String(notes.length + 1),
+    newNote: async (parent, args, context, info) => {
+      return await models.Note.create({
         content: args.content,
-        author: "Adam Scott",
-      };
-      notes.push(noteValue);
-      return noteValue;
+        author: "Daniel Boadzie",
+      });
     },
   },
 };
