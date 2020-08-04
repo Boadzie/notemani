@@ -4,6 +4,9 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 const cors = require("cors");
+// import the modules at the top of the file
+const depthLimit = require("graphql-depth-limit");
+const { createComplexityLimitRule } = require("graphql-validation-complexity");
 
 //Local module imports
 const db = require("./db");
@@ -53,6 +56,7 @@ app.use(cors());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  validationRules: [depthLimit(5), createComplexityLimitRule(1000)],
   context: ({ req }) => {
     // get the user token from the headers
     const token = req.headers.authorization;
