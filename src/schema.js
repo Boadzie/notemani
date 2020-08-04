@@ -33,7 +33,7 @@ module.exports = gql`
     user(username: String!): User
     users: [User!]!
     me: User!
-    # noteFeed(cursor: String): NoteFeed
+    noteFeed(cursor: String): NoteFeed
   }
   type Mutation {
     newNote(content: String!): Note

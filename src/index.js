@@ -2,6 +2,8 @@ const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const helmet = require("helmet");
+const cors = require("cors");
 
 //Local module imports
 const db = require("./db");
@@ -41,8 +43,11 @@ const getUser = (token) => {
 };
 
 // Provide resolver functions for our schema fields
-
 const app = express();
+
+// helmet
+app.use(helmet());
+app.use(cors());
 
 // Apollo Server setup
 const server = new ApolloServer({
