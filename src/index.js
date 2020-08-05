@@ -54,6 +54,8 @@ app.use(cors());
 
 // Apollo Server setup
 const server = new ApolloServer({
+  introspection: true,
+  playground: true,
   typeDefs,
   resolvers,
   validationRules: [depthLimit(5), createComplexityLimitRule(1000)],
