@@ -5,7 +5,7 @@ A note-taking Graphql API with Authentication
 # Prepare to run the code
 ```bash
 
-  git clone {url}
+  git clone https://github.com/Boadzie/notemani.git
   
   cd notemani
   
